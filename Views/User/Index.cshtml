@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>📋 Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card bg-primary text-white">
+            <div class="card-body">
+                <h1 class="display-4">@ViewBag.TotalIncidents</h1>
+                <p class="mb-0">Total Incidents</p>
+                <small><i class="bi bi-arrow-right"></i> All time</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card bg-warning text-dark">
+            <div class="card-body">
+                <h1 class="display-4">@ViewBag.ActiveIncidents</h1>
+                <p class="mb-0">Active Incidents</p>
+                <small><i class="bi bi-hourglass-split"></i> In progress</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card bg-success text-white">
+            <div class="card-body">
+                <h1 class="display-4">@ViewBag.AvailableTeams</h1>
+                <p class="mb-0">Available Teams</p>
+                <small><i class="bi bi-people"></i> Ready to deploy</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card bg-info text-white">
+            <div class="card-body">
+                <h1 class="display-4">$@string.Format("{0:N0}", ViewBag.TotalDonations ?? 0)</h1>
+                <p class="mb-0">Total Donations</p>
+                <small><i class="bi bi-currency-dollar"></i> Received</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="bi bi-exclamation-triangle text-warning"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                @if (Context.Session.GetString("Role") == "EmergencyOperator" || Context.Session.GetString("Role") == "Administrator")
+                {
+                    <a asp-controller="Incident" asp-action="Report" class="btn btn-primary w-100 mb-2">
+                        <i class="bi bi-plus-circle"></i> Report New Incident
+                    </a>
+                }
+                @if (Context.Session.GetString("Role") == "WarehouseManager" || Context.Session.GetString("Role") == "Administrator")
+                {
+                    <a asp-controller="Resource" asp-action="Allocate" class="btn btn-success w-100 mb-2">
+                        <i class="bi bi-truck"></i> Allocate Resources
+                    </a>
+                }
+                @if (Context.Session.GetString("Role") == "FinanceOfficer" || Context.Session.GetString("Role") == "Administrator")
+                {
+                    <a asp-controller="Transaction" asp-action="Create" class="btn btn-info w-100 mb-2 text-white">
+                        <i class="bi bi-cash-stack"></i> Add Donation/Expense
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="bi bi-bar-chart"></i> System Status</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Active Incidents
+                        <span class="badge bg-warning rounded-pill">@ViewBag.ActiveIncidents</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Available Teams
+                        <span class="badge bg-success rounded-pill">@ViewBag.AvailableTeams</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Pending Requests
+                        <span class="badge bg-danger rounded-pill">@ViewBag.PendingRequests</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="alert alert-secondary text-center">
+            <i class="bi bi-info-circle"></i> Welcome @Context.Session.GetString("UserName")! You are logged in as
+            <strong>@Context.Session.GetString("Role")</strong>
+        </div>
+    </div>
+</div>

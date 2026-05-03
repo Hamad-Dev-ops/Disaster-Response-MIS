@@ -1,0 +1,464 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Disaster MIS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f2f5 0%, #e3e8ef 100%);
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            width: 280px;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+            .sidebar .nav-link {
+                font-weight: 500;
+                color: #94a3b8;
+                padding: 0.8rem 1.2rem;
+                margin: 0.2rem 0.8rem;
+                border-radius: 12px;
+                transition: all 0.3s ease;
+                position: relative;
+            }
+
+                .sidebar .nav-link:hover {
+                    background: linear-gradient(135deg, #3b82f6, #2563eb);
+                    color: white;
+                    transform: translateX(5px);
+                }
+
+                .sidebar .nav-link.active {
+                    background: linear-gradient(135deg, #3b82f6, #2563eb);
+                    color: white;
+                }
+
+                .sidebar .nav-link i {
+                    margin-right: 12px;
+                    width: 24px;
+                    text-align: center;
+                }
+
+            .sidebar hr {
+                border-color: #334155;
+                margin: 1rem 1rem;
+            }
+
+        .content-wrapper {
+            margin-left: 280px;
+            padding: 20px 30px;
+        }
+
+        .top-navbar {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            padding: 12px 24px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            border: none;
+            border-radius: 24px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+            .stat-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 20px 30px -12px rgba(0,0,0,0.2);
+            }
+
+            .stat-card .card-body {
+                padding: 1.5rem;
+            }
+
+            .stat-card h1 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+            }
+
+        .card-primary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+
+        .card-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .card-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .card-info {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            color: white;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem 1rem;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+            }
+
+        .btn {
+            border-radius: 30px;
+            padding: 8px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background: linear-gradient(135deg, #2563eb, #1d4ed8);
+                transform: translateY(-2px);
+            }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+        }
+
+            .btn-success:hover {
+                background: linear-gradient(135deg, #059669, #047857);
+                transform: translateY(-2px);
+            }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            border-radius: 30px;
+            padding: 5px 16px;
+            font-size: 0.85rem;
+        }
+
+            .btn-logout:hover {
+                background: #ef4444;
+                color: white;
+            }
+
+        .table {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+            .table thead th {
+                background: linear-gradient(135deg, #1e293b, #0f172a);
+                color: white;
+                font-weight: 600;
+                padding: 12px 16px;
+            }
+
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            background: white;
+        }
+
+        .card-header {
+            background: rgba(59,130,246,0.05);
+            border-bottom: 2px solid rgba(59,130,246,0.1);
+            font-weight: 600;
+            border-radius: 20px 20px 0 0 !important;
+        }
+
+        .role-badge {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .welcome-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .live-clock {
+            font-size: 0.85rem;
+            font-family: monospace;
+            background: #f1f5f9;
+            padding: 5px 12px;
+            border-radius: 30px;
+            color: #1e293b;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            margin-top: 30px;
+            padding: 20px 0;
+        }
+
+        @@media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+
+            .content-wrapper {
+                margin-left: 0;
+            }
+        }
+    </style>
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="position-sticky pt-3">
+            <div class="text-center mb-4">
+                <i class="bi bi-shield-shaded" style="font-size: 2.5rem; color: #3b82f6;"></i>
+                <h5 class="text-white mt-2">Disaster MIS</h5>
+                <p class="text-white-50 small">Emergency Response System</p>
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+
+                @if (Context.Session.GetString("Role") == "EmergencyOperator" || Context.Session.GetString("Role") == "Administrator")
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Incident" ? "active" : "")" asp-controller="Incident" asp-action="Report">
+                            <i class="bi bi-exclamation-triangle"></i> Report Incident
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Incident" ? "active" : "")" asp-controller="Incident" asp-action="List">
+                            <i class="bi bi-list-ul"></i> Incidents List
+                        </a>
+                    </li>
+                }
+
+                @if (Context.Session.GetString("Role") == "WarehouseManager" || Context.Session.GetString("Role") == "Administrator")
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Inventory" ? "active" : "")" asp-controller="Inventory" asp-action="Index">
+                            <i class="bi bi-box-seam"></i> Inventory Status
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Resource" ? "active" : "")" asp-controller="Resource" asp-action="Allocate">
+                            <i class="bi bi-truck"></i> Allocate Resources
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Warehouse" ? "active" : "")" asp-controller="Warehouse" asp-action="Create">
+                            <i class="bi bi-building"></i> Add Warehouse
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Resource" ? "active" : "")" asp-controller="Resource" asp-action="Create">
+                            <i class="bi bi-cubes"></i> Add Resource Type
+                        </a>
+                    </li>
+                }
+
+                @if (Context.Session.GetString("Role") == "FinanceOfficer" || Context.Session.GetString("Role") == "Administrator")
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Finance" ? "active" : "")" asp-controller="Finance" asp-action="Index">
+                            <i class="bi bi-cash-stack"></i> Transactions
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Transaction" ? "active" : "")" asp-controller="Transaction" asp-action="Create">
+                            <i class="bi bi-plus-circle"></i> Add Donation/Expense
+                        </a>
+                    </li>
+                }
+
+                @if (Context.Session.GetString("Role") == "Administrator")
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" ? "active" : "")" asp-controller="Admin" asp-action="Dashboard">
+                            <i class="bi bi-graph-up"></i> System Stats
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "User" ? "active" : "")" asp-controller="User" asp-action="Index">
+                            <i class="bi bi-people"></i> Manage Users
+                        </a>
+                    </li>
+                }
+
+                @if (Context.Session.GetString("Role") == "FieldOfficer" || Context.Session.GetString("Role") == "Administrator")
+                {
+                    <li class="nav-item">
+                        <hr class="text-light mx-2">
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link text-white-50"><i class="bi bi-map"></i> Field Operations</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Field" ? "active" : "")" asp-controller="Field" asp-action="Dashboard">
+                            <i class="bi bi-map"></i> Field Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Incident" ? "active" : "")" asp-controller="Incident" asp-action="List">
+                            <i class="bi bi-list-ul"></i> Active Incidents
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Field" ? "active" : "")" asp-controller="Field" asp-action="UpdateStatus">
+                            <i class="bi bi-pencil-square"></i> Update Incident Status
+                        </a>
+                    </li>
+                }
+
+                @if (Context.Session.GetString("UserID") != null)
+                {
+                    <li class="nav-item">
+                        <hr class="text-light mx-2">
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link text-white-50"><i class="bi bi-bar-chart-steps"></i> MIS Reports</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Report" asp-action="IncidentsByLocation">
+                            <i class="bi bi-bar-chart"></i> Incident Stats
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Report" asp-action="ResourceUtilization">
+                            <i class="bi bi-boxes"></i> Resource Usage
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Report" asp-action="ResponseTime">
+                            <i class="bi bi-clock-history"></i> Response Time
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Report" asp-action="FinancialSummary">
+                            <i class="bi bi-currency-dollar"></i> Financial Summary
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Report" asp-action="ApprovalWorkflow">
+                            <i class="bi bi-check2-square"></i> Approvals
+                        </a>
+                    </li>
+                }
+            </ul>
+            <hr class="text-light">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-controller="Account" asp-action="Logout">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="content-wrapper">
+        <div class="top-navbar d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-0 fw-bold">@ViewData["Title"]</h4>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <div class="live-clock">
+                    <i class="bi bi-clock"></i> <span id="liveClock"></span>
+                </div>
+                @if (Context.Session.GetString("UserName") != null)
+                {
+                    <span class="welcome-text">
+                        <i class="bi bi-person-circle"></i> @Context.Session.GetString("UserName")
+                    </span>
+                    <span class="role-badge">@Context.Session.GetString("Role")</span>
+                    <a asp-controller="Account" asp-action="Logout" class="btn btn-logout">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                }
+            </div>
+        </div>
+
+        <!-- ========== THIS IS WHERE PAGE CONTENT IS RENDERED ========== -->
+        @RenderBody()
+        <!-- =========================================================== -->
+
+        <footer>
+            <hr class="my-3">
+            <small>© @DateTime.Now.Year - Disaster Response MIS | Secure & Real-time</small>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('liveClock').innerText = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "3000"
+        };
+
+        @if (TempData["Success"] != null)
+        {
+                <text>toastr.success('@TempData["Success"]');</text>
+        }
+        @if (TempData["Error"] != null)
+        {
+                <text>toastr.error('@TempData["Error"]');</text>
+        }
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

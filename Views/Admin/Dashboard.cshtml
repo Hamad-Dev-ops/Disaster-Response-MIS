@@ -1,0 +1,18 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+<h2>System Summary</h2>
+@if (Model.Rows.Count > 0)
+{
+    var row = Model.Rows[0];
+    <div class="row">
+        <div class="col-md-4"><div class="card"><div class="card-body"><h3>@row["TotalIncidents"]</h3><p>Total Incidents</p></div></div></div>
+        <div class="col-md-4"><div class="card"><div class="card-body"><h3>@row["ActiveIncidents"]</h3><p>Active Incidents</p></div></div></div>
+        <div class="col-md-4"><div class="card"><div class="card-body"><h3>@row["AvailableTeams"]</h3><p>Available Teams</p></div></div></div>
+        <div class="col-md-4"><div class="card"><div class="card-body"><h3>@row["PendingRequests"]</h3><p>Pending Requests</p></div></div></div>
+        <div class="col-md-4"><div class="card"><div class="card-body"><h3>$@row["TotalDonations"]</h3><p>Total Donations</p></div></div></div>
+        <div class="col-md-4"><div class="card"><div class="card-body"><h3>$@row["TotalExpenses"]</h3><p>Total Expenses</p></div></div></div>
+    </div>
+}

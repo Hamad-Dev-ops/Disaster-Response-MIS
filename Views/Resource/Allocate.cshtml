@@ -1,0 +1,32 @@
+﻿@model DisasterMIS_Frontend.Models.AllocationModel
+@{
+    ViewData["Title"] = "Allocate Resources";
+}
+<h2>Allocate Resources to Request</h2>
+@if (ViewBag.Success != null)
+{
+    <div class="alert alert-success">@ViewBag.Success</div>
+}
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+<form method="post">
+    <div class="form-group">
+        <label>Request ID</label>
+        <input asp-for="RequestID" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Resource ID</label>
+        <input asp-for="ResourceID" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Quantity to Allocate</label>
+        <input asp-for="QuantityAllocated" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Warehouse ID</label>
+        <input asp-for="WarehouseID" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Allocate</button>
+</form>

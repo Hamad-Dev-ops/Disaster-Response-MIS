@@ -1,0 +1,29 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewData["Title"] = "Response Time Analytics";
+}
+<h2>⏱️ Fastest Response Times (Top 10 Incidents)</h2>
+@if (Model.Rows.Count == 0)
+{
+    <div class="alert alert-info">No team assignment data available.</div>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr><th>Incident ID</th><th>Reported Time</th><th>Assigned Time</th><th>Response (Minutes)</th></tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in Model.Rows)
+            {
+                <tr>
+                    <td>@row["IncidentID"]</td>
+                    <td>@row["TimeReported"]</td>
+                    <td>@row["AssignedTime"]</td>
+                    <td>@row["ResponseMinutes"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

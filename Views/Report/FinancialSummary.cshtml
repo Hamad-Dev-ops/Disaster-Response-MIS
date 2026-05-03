@@ -1,0 +1,28 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewData["Title"] = "Financial Summary";
+}
+<h2>💰 Financial Summary (Completed Transactions)</h2>
+@if (Model.Rows.Count == 0)
+{
+    <div class="alert alert-info">No completed transactions.</div>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr><th>Transaction Type</th><th>Total Amount ($)</th><th>Number of Transactions</th></tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in Model.Rows)
+            {
+                <tr>
+                    <td>@row["TransactionType"]</td>
+                    <td>$@string.Format("{0:N2}", row["TotalAmount"])</td>
+                    <td>@row["TransactionCount"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

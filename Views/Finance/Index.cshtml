@@ -1,0 +1,26 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewData["Title"] = "Financial Transactions";
+}
+<h2>Financial Overview</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr><th>TransactionID</th><th>IncidentID</th><th>DisasterType</th><th>Location</th><th>Type</th><th>Amount</th><th>Date</th><th>Donor/Supplier</th></tr>
+    </thead>
+    <tbody>
+        @foreach (DataRow row in Model.Rows)
+        {
+            <tr>
+                <td>@row["TransactionID"]</td>
+                <td>@row["IncidentID"]</td>
+                <td>@row["DisasterType"]</td>
+                <td>@row["IncidentLocation"]</td>
+                <td>@row["TransactionType"]</td>
+                <td>@row["Amount"]</td>
+                <td>@row["TransactionDate"]</td>
+                <td>@(row["DonorName"] ?? row["SupplierName"] ?? "")</td>
+            </tr>
+        }
+    </tbody>
+</table>

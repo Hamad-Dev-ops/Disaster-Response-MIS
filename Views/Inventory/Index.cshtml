@@ -1,0 +1,25 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewData["Title"] = "Inventory Status";
+}
+<h2>Warehouse Inventory</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr><th>WarehouseID</th><th>Warehouse Location</th><th>Resource Name</th><th>Resource Type</th><th>Quantity</th><th>Threshold</th><th>Stock Status</th></tr>
+    </thead>
+    <tbody>
+        @foreach (DataRow row in Model.Rows)
+        {
+            <tr>
+                <td>@row["WarehouseID"]</td>
+                <td>@row["WarehouseLocation"]</td>
+                <td>@row["ResourceName"]</td>
+                <td>@row["ResourceType"]</td>
+                <td>@row["Quantity"]</td>
+                <td>@row["ThresholdLevel"]</td>
+                <td>@row["StockStatus"]</td>
+            </tr>
+        }
+    </tbody>
+</table>

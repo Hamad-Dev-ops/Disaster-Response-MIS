@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Update Incident Status";
+    int incidentId = ViewBag.IncidentID ?? 0;
+    string currentStatus = ViewBag.CurrentStatus ?? "Unknown";
+}
+
+<h2>📝 Update Incident Status</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Incident ID: @incidentId</h5>
+        <p class="card-text">Current Status: <strong>@currentStatus</strong></p>
+
+        <form method="post">
+            <input type="hidden" name="incidentId" value="@incidentId" />
+
+            <div class="form-group mb-3">
+                <label for="status" class="form-label">New Status</label>
+                <select name="status" id="status" class="form-control" required>
+                    <option value="">-- Select Status --</option>
+                    <option value="Reported">Reported</option>
+                    <option value="Assigned">Assigned</option>
+                    <option value="InProgress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Closed">Closed</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Status</button>
+            <a asp-action="Dashboard" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

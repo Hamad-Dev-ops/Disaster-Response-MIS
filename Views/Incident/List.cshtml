@@ -1,0 +1,39 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewData["Title"] = "All Incidents";
+}
+<h2>📋 Incident List</h2>
+
+@if (Model.Rows.Count == 0)
+{
+    <div class="alert alert-info">No incidents reported yet.</div>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Location</th>
+                <th>Disaster Type</th>
+                <th>Severity</th>
+                <th>Status</th>
+                <th>Reported Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in Model.Rows)
+            {
+                <tr>
+                    <td>@row["IncidentID"]</td>
+                    <td>@row["Location"]</td>
+                    <td>@row["DisasterType"]</td>
+                    <td>@row["SeverityLevel"]</td>
+                    <td>@row["Status"]</td>
+                    <td>@row["TimeReported"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

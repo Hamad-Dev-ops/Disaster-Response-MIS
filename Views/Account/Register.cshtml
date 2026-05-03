@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-transparent text-center pt-4">
+                <i class="bi bi-person-plus" style="font-size: 3rem; color: #e67e22;"></i>
+                <h3 class="mt-2">Create Account</h3>
+                <p class="text-muted">Join Disaster Response MIS</p>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required />
+                        <div class="form-text">Password stored as plain text for demo purposes.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Select Role</label>
+                        <select name="roleId" class="form-select" required>
+                            <option value="">-- Choose your role --</option>
+                            @if (ViewBag.Roles != null)
+                            {
+                                foreach (System.Data.DataRow row in ViewBag.Roles.Rows)
+                                {
+                                    <option value="@row["RoleID"]">@row["RoleName"]</option>
+                                }
+                            }
+                        </select>
+                        <div class="form-text">Your permissions will be based on this role.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </form>
+                <hr class="my-3">
+                <p class="text-center mb-0">
+                    Already have an account? <a asp-controller="Account" asp-action="Login">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

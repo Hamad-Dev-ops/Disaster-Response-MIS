@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Add Donation / Expense";
+}
+<h2>💰 Add Financial Transaction</h2>
+
+@if (ViewBag.Success != null)
+{
+    <div class="alert alert-success">@ViewBag.Success</div>
+}
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<form method="post">
+    <div class="form-group mb-3">
+        <label>Transaction Type</label>
+        <select name="transactionType" id="transactionType" class="form-control" required>
+            <option value="">-- Select --</option>
+            <option value="Donation">Donation (Income)</option>
+            <option value="Expense">Expense (Spending)</option>
+        </select>
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Amount ($)</label>
+        <input type="number" step="0.01" name="amount" class="form-control" required />
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Incident</label>
+        <select name="incidentId" class="form-control" required>
+            <option value="">-- Select an Incident --</option>
+            @if (ViewBag.Incidents != null)
+            {
+                foreach (System.Data.DataRow row in ViewBag.Incidents.Rows)
+                {
+                    <option value="@row["IncidentID"]">ID @row["IncidentID"] - @row["Location"]</option>
+                }
+            }
+            else
+            {
+                <option value="" disabled>No incidents found. Please create an incident first.</option>
+            }
+        </select>
+        <small class="text-muted">Only incidents that exist are shown.</small>
+    </div>
+
+    <div class="form-group mb-3" id="donorField" style="display:none;">
+        <label>Donor Name (for Donation)</label>
+        <input type="text" name="donorName" class="form-control" />
+        <small class="text-muted">Optional – if empty, "Anonymous" will be used.</small>
+    </div>
+
+    <div class="form-group mb-3" id="purposeField" style="display:none;">
+        <label>Purpose (for Expense)</label>
+        <input type="text" name="purpose" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Transaction</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+<script>
+    const typeSelect = document.getElementById('transactionType');
+    const donorDiv = document.getElementById('donorField');
+    const purposeDiv = document.getElementById('purposeField');
+
+    function toggleFields() {
+        const val = typeSelect.value;
+        if (val === 'Donation') {
+            donorDiv.style.display = 'block';
+            purposeDiv.style.display = 'none';
+        } else if (val === 'Expense') {
+            donorDiv.style.display = 'none';
+            purposeDiv.style.display = 'block';
+        } else {
+            donorDiv.style.display = 'none';
+            purposeDiv.style.display = 'none';
+        }
+    }
+
+    typeSelect.addEventListener('change', toggleFields);
+    window.addEventListener('load', toggleFields);
+</script>

@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Add Warehouse";
+}
+<h2>🏭 Add New Warehouse</h2>
+
+@if (ViewBag.Success != null)
+{
+    <div class="alert alert-success">@ViewBag.Success</div>
+}
+
+<form method="post">
+    <div class="form-group mb-3">
+        <label>Location</label>
+        <input type="text" name="location" class="form-control" required />
+    </div>
+    <div class="form-group mb-3">
+        <label>Latitude</label>
+        <input type="number" step="any" name="latitude" class="form-control" required />
+    </div>
+    <div class="form-group mb-3">
+        <label>Longitude</label>
+        <input type="number" step="any" name="longitude" class="form-control" required />
+    </div>
+    <div class="form-group mb-3">
+        <label>Manager ID (optional)</label>
+        <input type="number" name="managerId" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save Warehouse</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

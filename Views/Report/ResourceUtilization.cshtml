@@ -1,0 +1,29 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewData["Title"] = "Resource Utilization";
+}
+<h2>📦 Resource Utilization (Dispatched vs Consumed)</h2>
+@if (Model.Rows.Count == 0)
+{
+    <div class="alert alert-info">No resource dispatch data available.</div>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr><th>Resource Name</th><th>Total Dispatched</th><th>Total Consumed</th><th>Unused / Lost</th></tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in Model.Rows)
+            {
+                <tr>
+                    <td>@row["ResourceName"]</td>
+                    <td>@row["TotalDispatched"]</td>
+                    <td>@row["TotalConsumed"]</td>
+                    <td>@row["UnusedOrLost"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

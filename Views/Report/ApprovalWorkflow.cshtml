@@ -1,0 +1,43 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewData["Title"] = "Approval Workflow Report";
+}
+<h2>✅ Approval Workflow History</h2>
+@if (Model.Rows.Count == 0)
+{
+    <div class="alert alert-info">No approval requests yet.</div>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Request ID</th>
+                <th>Type</th>
+                <th>Request Status</th>
+                <th>Approval Status</th>
+                <th>Comments</th>
+                <th>Approval Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in Model.Rows)
+            {
+                <tr>
+                    <td>@row["RequestID"]</td>
+                    <td>@row["RequestType"]</td>
+                    <td>@row["RequestStatus"]</td>
+                    <td>
+                        @{
+                            string approvalStatus = row["ApprovalStatus"]?.ToString();
+                        }
+                        @(string.IsNullOrEmpty(approvalStatus) ? "Pending" : approvalStatus)
+                    </td>
+                    <td>@(row["Comments"]?.ToString() ?? "-")</td>
+                    <td>@(row["ApprovalDate"]?.ToString() ?? "-")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

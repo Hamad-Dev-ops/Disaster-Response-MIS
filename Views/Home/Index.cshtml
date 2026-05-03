@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+<h1>Welcome, @ViewBag.UserName</h1>
+<h3>Role: @ViewBag.Role</h3>
+<hr />
+<div class="row">
+    @if (ViewBag.Role == "EmergencyOperator")
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Report Incident</h5>
+                    <p class="card-text">Log a new disaster incident.</p>
+                    <a asp-controller="Incident" asp-action="Report" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+    }
+    @if (ViewBag.Role == "WarehouseManager")
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Inventory Status</h5>
+                    <p class="card-text">View warehouse stock levels.</p>
+                    <a asp-controller="Inventory" asp-action="Index" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Allocate Resources</h5>
+                    <p class="card-text">Dispatch resources to incidents.</p>
+                    <a asp-controller="Resource" asp-action="Allocate" class="btn btn-primary">Allocate</a>
+                </div>
+            </div>
+        </div>
+    }
+    @if (ViewBag.Role == "FinanceOfficer")
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Financial Transactions</h5>
+                    <p class="card-text">View donations, expenses, and procurements.</p>
+                    <a asp-controller="Finance" asp-action="Index" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+    }
+    @if (ViewBag.Role == "Administrator")
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Admin Dashboard</h5>
+                    <p class="card-text">System summary statistics.</p>
+                    <a asp-controller="Admin" asp-action="Dashboard" class="btn btn-primary">Dashboard</a>
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
